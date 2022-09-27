@@ -3226,13 +3226,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
 
 
-var regeneratorRuntime = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js"); //Use this package or update babelrc. 
+var regeneratorRuntime = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js"); //@dev Use this package or update babelrc with plugin-transform-runtime
 
 
-var axios = (__webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"]); //@dev Test string, just for bitcoin. Use commented regexs to develop further. 
+var axios = (__webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"]); //@dev Test string, just for bitcoin. Use commented regexs at bottom to develop further. 
 
 
-var api = 'https://api.blockchair.com/bitcoin/dashboards/transaction/';
+var btcTxApi = 'https://api.blockchair.com/bitcoin/dashboards/transaction/';
 var errors = document.querySelector(".errors");
 var loading = document.querySelector(".loading");
 var results = document.querySelector(".results");
@@ -3251,8 +3251,9 @@ document.addEventListener('DOMContentLoaded', /*#__PURE__*/(0,_babel_runtime_hel
       switch (_context.prev = _context.next) {
         case 0:
           getTimeTitle();
+          transaction.focus();
 
-        case 1:
+        case 2:
         case "end":
           return _context.stop();
       }
@@ -3301,7 +3302,7 @@ var searchTransaction = /*#__PURE__*/function () {
             }
 
             _context2.next = 9;
-            return axios.get("".concat(api).concat(transactionHash));
+            return axios.get("".concat(btcTxApi).concat(transactionHash));
 
           case 9:
             response = _context2.sent;
@@ -3338,7 +3339,7 @@ var searchTransaction = /*#__PURE__*/function () {
               sendAmount.textContent = " $" + sent.toFixed(2);
               console.log(readableDots);
             } else {
-              confirmed.textContent = "Not quite.";
+              confirmed.textContent = "Not confirmed.";
             }
 
             divider.style.display = "block";
@@ -3360,7 +3361,7 @@ var searchTransaction = /*#__PURE__*/function () {
             }
 
             x = document.getElementById("snackbar");
-            x.innerText = "🤔 Hmmm.... ";
+            x.innerText = "🤔 I'm listening... ";
             x.className = "show";
             setTimeout(function () {
               x.className = x.className.replace("show", "");
@@ -3396,7 +3397,7 @@ var searchTransaction = /*#__PURE__*/function () {
             labelResults.style.display = "none";
             loading.style.display = "none";
             results.style.display = "none";
-            errors.textContent = "No data for the transaction or input you have requested.";
+            errors.textContent = "No data for the transaction or input entered.";
             console.log(_context2.t0);
 
           case 68:
@@ -3440,20 +3441,20 @@ form.addEventListener("submit", function (e) {
 }); // Regex's pulled from existing extension for reference. 
 // let REGEXPS = [
 //       '^0x[0-9a-fA-F]{64}$',                    // etherium tx or block
+//       '^[0-9a-fA-F]{64}$',                      // tx's hash in a lot of blockhains
 //       '^0x[0-9a-fA-F]{40}$',                    // etherium address
-//       '^[0-9a-fA-F]{64}$',                      // tx's hash in a lot of blockhain
 //       '^1[a-km-zA-HJ-NP-Z1-9]{25,34}(?!\/)$',      // bitcoin address
 //       '^3[a-km-zA-HJ-NP-Z1-9]{25,34}$',      // bitcoin address
 //       '^bc(0([ac-hj-np-z02-9]{39}|[ac-hj-np-z02-9]{59})|1[ac-hj-np-z02-9]{8,87})$',  // bitcoin address
 //       '^([qp][qpzry9x8gf2tvdw0s3jn54khce6mua7l]{40,120})|(bitcoincash:[qp][qpzry9x8gf2tvdw0s3jn54khce6mua7l]{40,120})$',  // bch address
-//       '^[LM][a-km-zA-HJ-NP-Z1-9]{26,33}$',   // litecoin
-//       '^[9AD][a-km-zA-HJ-NP-Z1-9]{26,33}$',  // dogecoin
-//       '^[7X][a-km-zA-HJ-NP-Z1-9]{26,33}$',   // dash
-//       '^F[a-km-zA-HJ-NP-Z1-9]{26,33}$',      // groestl
-//       '^ltc[a-zA-Z0-9]{5,88}$',              // litecoin
-//       '^grs[a-zA-Z0-9]{5,88}$',              // groestl
-//       '^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$',  // ripple
-//       '^G[A-Z0-9]{55}$'                      // stellar
+//       '^[LM][a-km-zA-HJ-NP-Z1-9]{26,33}$',   // litecoin add
+//       '^[9AD][a-km-zA-HJ-NP-Z1-9]{26,33}$',  // dogecoin add
+//       '^[7X][a-km-zA-HJ-NP-Z1-9]{26,33}$',   // dash add 
+//       '^F[a-km-zA-HJ-NP-Z1-9]{26,33}$',      // groestl add
+//       '^ltc[a-zA-Z0-9]{5,88}$',              // litecoin add
+//       '^grs[a-zA-Z0-9]{5,88}$',              // groestl add
+//       '^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$',  // ripple add
+//       '^G[A-Z0-9]{55}$'                      // stellar add
 //     ];
 })();
 

@@ -16,8 +16,6 @@
     "128": "EXODUSblockchair.png"
   },
 
-
-
   "content_security_policy": {
     "extension_pages" : "script-src 'self'; connect-src https://api.blockchair.com/bitcoin/dashboards/transaction/; object-src 'self'"
  },

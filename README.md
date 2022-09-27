@@ -32,7 +32,7 @@ Notes:
 
 - To run build:  `webpack --mode development` or production depending
 
-- Needs babel plugin in .babelrc in order to call async functions/ dynamic functions. 
+- Needs babel plugin in .babelrc in order to call async functions/ dynamic functions. https://babeljs.io/docs/en/plugins/. Also need to install the npm package. 
 
 - Uses Axios to get data from free api.
 

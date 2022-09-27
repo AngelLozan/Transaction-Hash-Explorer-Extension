@@ -1,7 +1,7 @@
 const regeneratorRuntime = require("regenerator-runtime"); //@dev Use this package or update babelrc with plugin-transform-runtime
 const axios = require('axios').default;
 //@dev Test string, just for bitcoin. Use commented regexs at bottom to develop further. 
-const api = 'https://api.blockchair.com/bitcoin/dashboards/transaction/';
+const btcTxApi = 'https://api.blockchair.com/bitcoin/dashboards/transaction/';
 const errors = document.querySelector(".errors");
 const loading = document.querySelector(".loading");
 const results = document.querySelector(".results");
@@ -20,6 +20,7 @@ const transaction = document.getElementById('q');
 document.addEventListener('DOMContentLoaded', async () => {
 
     getTimeTitle();
+    transaction.focus();
 
 })
 
@@ -57,12 +58,15 @@ const searchTransaction = async (transactionHash) => {
 
         if (btcHashRegex.test(transactionHash)) {
 
-            const response = await axios.get(`${api}${transactionHash}`);
+            const response = await axios.get(`${btcTxApi}${transactionHash}`);
 
+            //@dev Parsing the data received from api. Data heirarchy defined in docs. 
             let newObj = await response.data.data;
 
+            //@dev This var circumvents the need to de-stringify the transactionHash. Allows you to access object after hash. 
             let readableDots = await Object.values(newObj)[0];
 
+            //@dev Data can then be pulled form the transaction dashboard information and assigned. 
             let blockId = await readableDots.transaction.block_id;
             let fee = await readableDots.transaction.fee_usd;
             let sent = await readableDots.transaction.input_total_usd;
@@ -78,7 +82,7 @@ const searchTransaction = async (transactionHash) => {
 
                 console.log(readableDots);
             } else {
-                confirmed.textContent = "Not quite."
+                confirmed.textContent = "Not confirmed."
             }
             divider.style.display = "block";
             results.style.display = "block";
@@ -91,7 +95,7 @@ const searchTransaction = async (transactionHash) => {
 
         } else if(!transactionHash){
         	var x = document.getElementById("snackbar");
-	    	x.innerText = "🤔 Hmmm.... "
+	    	x.innerText = "🤔 I'm listening... "
 	        x.className = "show";
 	        setTimeout(function() { x.className = x.className.replace("show", ""); }, 1800);
 	        divider.style.display = "none";
@@ -118,7 +122,7 @@ const searchTransaction = async (transactionHash) => {
     	labelResults.style.display = "none";
         loading.style.display = "none";
         results.style.display = "none";
-        errors.textContent = "No data for the transaction or input you have requested.";
+        errors.textContent = "No data for the transaction or input entered.";
         console.log(e);
     } 
 }
@@ -137,19 +141,20 @@ form.addEventListener("submit", e => handleSubmit(e));
 
 // let REGEXPS = [
 //       '^0x[0-9a-fA-F]{64}$',                    // etherium tx or block
+//       '^[0-9a-fA-F]{64}$',                      // tx's hash in a lot of blockhains
+
 //       '^0x[0-9a-fA-F]{40}$',                    // etherium address
-//       '^[0-9a-fA-F]{64}$',                      // tx's hash in a lot of blockhain
 //       '^1[a-km-zA-HJ-NP-Z1-9]{25,34}(?!\/)$',      // bitcoin address
 //       '^3[a-km-zA-HJ-NP-Z1-9]{25,34}$',      // bitcoin address
 //       '^bc(0([ac-hj-np-z02-9]{39}|[ac-hj-np-z02-9]{59})|1[ac-hj-np-z02-9]{8,87})$',  // bitcoin address
 //       '^([qp][qpzry9x8gf2tvdw0s3jn54khce6mua7l]{40,120})|(bitcoincash:[qp][qpzry9x8gf2tvdw0s3jn54khce6mua7l]{40,120})$',  // bch address
-//       '^[LM][a-km-zA-HJ-NP-Z1-9]{26,33}$',   // litecoin
-//       '^[9AD][a-km-zA-HJ-NP-Z1-9]{26,33}$',  // dogecoin
-//       '^[7X][a-km-zA-HJ-NP-Z1-9]{26,33}$',   // dash
-//       '^F[a-km-zA-HJ-NP-Z1-9]{26,33}$',      // groestl
-//       '^ltc[a-zA-Z0-9]{5,88}$',              // litecoin
-//       '^grs[a-zA-Z0-9]{5,88}$',              // groestl
-//       '^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$',  // ripple
-//       '^G[A-Z0-9]{55}$'                      // stellar
+//       '^[LM][a-km-zA-HJ-NP-Z1-9]{26,33}$',   // litecoin add
+//       '^[9AD][a-km-zA-HJ-NP-Z1-9]{26,33}$',  // dogecoin add
+//       '^[7X][a-km-zA-HJ-NP-Z1-9]{26,33}$',   // dash add 
+//       '^F[a-km-zA-HJ-NP-Z1-9]{26,33}$',      // groestl add
+//       '^ltc[a-zA-Z0-9]{5,88}$',              // litecoin add
+//       '^grs[a-zA-Z0-9]{5,88}$',              // groestl add
+//       '^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$',  // ripple add
+//       '^G[A-Z0-9]{55}$'                      // stellar add
 //     ];
 
