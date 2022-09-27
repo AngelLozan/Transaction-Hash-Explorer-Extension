@@ -12,7 +12,7 @@ const sendAmount = document.querySelector('.sendAmount'); // in USD
 let divider = document.querySelector(".extension__divider");
 
 
-const form = document.getElementById("ExplorerAppFormAwesomeSauce");
+const form = document.getElementById("ExplorerAppForm");
 
 const transaction = document.getElementById('q');
 
@@ -20,6 +20,7 @@ const transaction = document.getElementById('q');
 document.addEventListener('DOMContentLoaded', async () => {
 
     getTimeTitle();
+    //@dev Focus on input and make visible to user so they can use keyboard only to paste and search. Efficiency + cool css highlight to draw attention.
     transaction.focus();
 
 })
@@ -112,7 +113,7 @@ const searchTransaction = async (transactionHash) => {
         	errors.textContent = "No data for the transaction or input you have requested.";
 
         	var x = document.getElementById("snackbar");
-	    	x.innerText = "😖 Sorry, I didn't find anything."
+	    	x.innerText = "😖 Sorry, no results."
 	        x.className = "show";
 	        setTimeout(function() { x.className = x.className.replace("show", ""); }, 1800);
         }

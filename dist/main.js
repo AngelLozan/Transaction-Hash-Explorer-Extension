@@ -3243,14 +3243,15 @@ var feeSpent = document.querySelector('.feeSpent'); // in USD
 var sendAmount = document.querySelector('.sendAmount'); // in USD
 
 var divider = document.querySelector(".extension__divider");
-var form = document.getElementById("ExplorerAppFormAwesomeSauce");
+var form = document.getElementById("ExplorerAppForm");
 var transaction = document.getElementById('q');
 document.addEventListener('DOMContentLoaded', /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          getTimeTitle();
+          getTimeTitle(); //@dev Focus on input and make visible to user so they can use keyboard only to paste and search. Efficiency + cool css highlight to draw attention.
+
           transaction.focus();
 
         case 2:
@@ -3380,7 +3381,7 @@ var searchTransaction = /*#__PURE__*/function () {
             results.style.display = "none";
             errors.textContent = "No data for the transaction or input you have requested.";
             x = document.getElementById("snackbar");
-            x.innerText = "😖 Sorry, I didn't find anything.";
+            x.innerText = "😖 Sorry, no results.";
             x.className = "show";
             setTimeout(function () {
               x.className = x.className.replace("show", "");

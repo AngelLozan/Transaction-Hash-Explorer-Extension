@@ -339,6 +339,7 @@ label {
 .extension__input:focus, .extension__search-btn:focus {
 	outline: none;
 	box-shadow: 0 0 8px #720dff;
+	transition: 1s;
 }
 
 .extension__search-btn {
