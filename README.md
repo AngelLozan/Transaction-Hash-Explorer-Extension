@@ -6,6 +6,8 @@ This project has been created using **webpack-cli**,
 
 This is a demo extension to test the capbilities of the blockchair api for an internal tool hackathon project. Will be utilized by over 100 employees. 
 
+Run
+
 ```
 npm run build
 ```
@@ -18,8 +20,12 @@ yarn build
 
 to bundle your application
 
-devtools included in config to remove eval from content script when build is ran. 
+Notes:
 
-icons from FontAwesome. 
+- `devtools` included in config to remove eval from content script when build is ran. 
 
-No permissions needed yet, just placeholder. 
+- Icons from FontAwesome. 
+
+- No permissions needed yet, just placeholders in the manifest.
+
+- To run build:  `webpack --mode development`
