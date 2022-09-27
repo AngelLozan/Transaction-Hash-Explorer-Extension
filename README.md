@@ -1,4 +1,4 @@
-# 🚀 Block explorer Extension
+# 🔍 Block explorer Extension
 
 ![Helpscout Custom Logo](https://github.com/AngelLozan/Transaction-Hash-Explorer-Extension/blob/main/dist/EXODUSblockchair.png?raw=true)
 
