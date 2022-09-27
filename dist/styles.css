@@ -660,10 +660,10 @@ label {
     z-index: 1;
     /* Add a z-index if needed */
     left: 10%;
-    /* Center the snackbar */
+    /* Bring the snackbar closer to exodude*/
     right: 60%;
-    top: 15px;
-    /* 15px from the top */
+    top: 25px;
+    /* 25px from the top */
     font-family: $Roboto;
 }
 
@@ -685,7 +685,7 @@ label {
     }
 
     to {
-        top: 15px;
+        top: 25px;
         opacity: 1;
     }
 }
@@ -697,14 +697,14 @@ label {
     }
 
     to {
-        top: 15px;
+        top: 25px;
         opacity: 1;
     }
 }
 
 @-webkit-keyframes fadeout {
     from {
-        top: 15px;
+        top: 25px;
         opacity: 1;
     }
 
@@ -716,7 +716,7 @@ label {
 
 @keyframes fadeout {
     from {
-        top: 15px;
+        top: 25px;
         opacity: 1;
     }
 
