@@ -3108,6 +3108,55 @@ try {
   }
 }
 
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _asyncToGenerator)
+/* harmony export */ });
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
 /***/ })
 
 /******/ 	});
@@ -3137,17 +3186,48 @@ try {
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
 
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var regeneratorRuntime = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
+var regeneratorRuntime = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js"); //Use this package or update babelrc. 
+
 
 var axios = (__webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"]); //@dev Test string, just for bitcoin. Use commented regexs to develop further. 
 
@@ -3165,7 +3245,7 @@ var sendAmount = document.querySelector('.sendAmount'); // in USD
 var divider = document.querySelector(".extension__divider");
 var form = document.getElementById("ExplorerAppFormAwesomeSauce");
 var transaction = document.getElementById('q');
-document.addEventListener('DOMContentLoaded', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+document.addEventListener('DOMContentLoaded', /*#__PURE__*/(0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
@@ -3202,7 +3282,7 @@ function getTimeTitle() {
 }
 
 var searchTransaction = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(transactionHash) {
+  var _ref2 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(transactionHash) {
     var btcHashRegex, response, newObj, readableDots, blockId, fee, sent, x;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -3216,7 +3296,7 @@ var searchTransaction = /*#__PURE__*/function () {
             _context2.prev = 5;
 
             if (!btcHashRegex.test(transactionHash)) {
-              _context2.next = 32;
+              _context2.next = 36;
               break;
             }
 
@@ -3264,22 +3344,53 @@ var searchTransaction = /*#__PURE__*/function () {
             divider.style.display = "block";
             results.style.display = "block";
             labelResults.style.display = "block";
-            _context2.next = 37;
+            x = document.getElementById("snackbar");
+            x.innerText = "👈 Click me to reset content or enter new query.";
+            x.className = "show";
+            setTimeout(function () {
+              x.className = x.className.replace("show", "");
+            }, 1800);
+            _context2.next = 58;
             break;
 
-          case 32:
+          case 36:
+            if (transactionHash) {
+              _context2.next = 48;
+              break;
+            }
+
+            x = document.getElementById("snackbar");
+            x.innerText = "🤔 Hmmm.... ";
+            x.className = "show";
+            setTimeout(function () {
+              x.className = x.className.replace("show", "");
+            }, 1800);
+            divider.style.display = "none";
+            labelResults.style.display = "none";
+            loading.style.display = "none";
+            results.style.display = "none";
+            return _context2.abrupt("return");
+
+          case 48:
+            console.log(transactionHash);
             divider.style.display = "block";
             labelResults.style.display = "none";
             loading.style.display = "none";
             results.style.display = "none";
             errors.textContent = "No data for the transaction or input you have requested.";
+            x = document.getElementById("snackbar");
+            x.innerText = "😖 Sorry, I didn't find anything.";
+            x.className = "show";
+            setTimeout(function () {
+              x.className = x.className.replace("show", "");
+            }, 1800);
 
-          case 37:
-            _context2.next = 47;
+          case 58:
+            _context2.next = 68;
             break;
 
-          case 39:
-            _context2.prev = 39;
+          case 60:
+            _context2.prev = 60;
             _context2.t0 = _context2["catch"](5);
             divider.style.display = "block";
             labelResults.style.display = "none";
@@ -3288,22 +3399,12 @@ var searchTransaction = /*#__PURE__*/function () {
             errors.textContent = "No data for the transaction or input you have requested.";
             console.log(_context2.t0);
 
-          case 47:
-            _context2.prev = 47;
-            x = document.getElementById("snackbar");
-            x.innerText = "👈 Click me to reset content or just search something else.";
-            x.className = "show";
-            setTimeout(function () {
-              x.className = x.className.replace("show", "");
-            }, 1800);
-            return _context2.finish(47);
-
-          case 53:
+          case 68:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[5, 39, 47, 53]]);
+    }, _callee2, null, [[5, 60]]);
   }));
 
   return function searchTransaction(_x) {
@@ -3312,7 +3413,7 @@ var searchTransaction = /*#__PURE__*/function () {
 }();
 
 var handleSubmit = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(e) {
+  var _ref3 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(e) {
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {

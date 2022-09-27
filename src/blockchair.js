@@ -1,3 +1,6 @@
+// This is a reference file downloaded from the blockchair browser extension. 
+
+
 class Blockchair {
 
   constructor() {

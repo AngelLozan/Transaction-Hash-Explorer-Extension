@@ -1,6 +1,6 @@
-const regeneratorRuntime = require("regenerator-runtime");
+const regeneratorRuntime = require("regenerator-runtime"); //@dev Use this package or update babelrc with plugin-transform-runtime
 const axios = require('axios').default;
-//@dev Test string, just for bitcoin. Use commented regexs to develop further. 
+//@dev Test string, just for bitcoin. Use commented regexs at bottom to develop further. 
 const api = 'https://api.blockchair.com/bitcoin/dashboards/transaction/';
 const errors = document.querySelector(".errors");
 const loading = document.querySelector(".loading");
@@ -84,15 +84,34 @@ const searchTransaction = async (transactionHash) => {
             results.style.display = "block";
             labelResults.style.display = "block";
 
+            var x = document.getElementById("snackbar");
+	    	x.innerText = "👈 Click me to reset content or enter new query."
+	        x.className = "show";
+	        setTimeout(function() { x.className = x.className.replace("show", ""); }, 1800);
+
+        } else if(!transactionHash){
+        	var x = document.getElementById("snackbar");
+	    	x.innerText = "🤔 Hmmm.... "
+	        x.className = "show";
+	        setTimeout(function() { x.className = x.className.replace("show", ""); }, 1800);
+	        divider.style.display = "none";
+        	labelResults.style.display = "none";
+        	loading.style.display = "none";
+        	results.style.display = "none";
+        	return;
         } else {
+        	console.log(transactionHash);
         	divider.style.display = "block";
         	labelResults.style.display = "none";
         	loading.style.display = "none";
         	results.style.display = "none";
         	errors.textContent = "No data for the transaction or input you have requested.";
+
+        	var x = document.getElementById("snackbar");
+	    	x.innerText = "😖 Sorry, I didn't find anything."
+	        x.className = "show";
+	        setTimeout(function() { x.className = x.className.replace("show", ""); }, 1800);
         }
-
-
 
     } catch (e) {
     	divider.style.display = "block";
@@ -101,13 +120,7 @@ const searchTransaction = async (transactionHash) => {
         results.style.display = "none";
         errors.textContent = "No data for the transaction or input you have requested.";
         console.log(e);
-    } finally {
-    	var x = document.getElementById("snackbar");
-    	x.innerText = "👈 Click me to reset content or just search something else."
-        x.className = "show";
-        setTimeout(function() { x.className = x.className.replace("show", ""); }, 1800);
-
-    }
+    } 
 }
 
 const handleSubmit = async e => {
@@ -117,6 +130,7 @@ const handleSubmit = async e => {
 };
 
 form.addEventListener("submit", e => handleSubmit(e));
+
 
 
 // Regex's pulled from existing extension for reference. 
