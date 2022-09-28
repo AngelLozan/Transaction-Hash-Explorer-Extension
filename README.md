@@ -1,6 +1,6 @@
 # 🔍 Block explorer Extension
 
-![Helpscout Custom Logo](https://github.com/AngelLozan/Transaction-Hash-Explorer-Extension/blob/main/dist/EXODUSblockchair.png?raw=true)
+![Helpscout Custom Logo](https://github.com/AngelLozan/Transaction-Hash-Explorer-Extension/blob/main/EXODUSblockchair.png?raw=true)
 
 This project has been created using **webpack-cli**
 
