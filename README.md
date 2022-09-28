@@ -36,6 +36,8 @@ Notes:
 
 - Uses Axios to get data from free api.
 
+Formatting of regex and assignment of variables will be expansive in the current form. I will first ensure the regex and api calls are successful, then I will pair down the JS to combine as many variables as possible and streamline the code. 
+
 
 To Do:
 - Save data from previous search in local storage to display after opening the app.

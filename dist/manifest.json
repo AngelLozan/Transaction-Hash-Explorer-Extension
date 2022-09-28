@@ -17,7 +17,7 @@
   },
 
   "content_security_policy": {
-    "extension_pages" : "script-src 'self'; connect-src https://api.blockchair.com/bitcoin/dashboards/transaction/; object-src 'self'"
+    "extension_pages" : "script-src 'self'; connect-src 'self' https://*.blockchair.com/; object-src 'self'"
  },
 
   "commands": {

@@ -3232,7 +3232,8 @@ var regeneratorRuntime = __webpack_require__(/*! regenerator-runtime */ "./node_
 var axios = (__webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"]); //@dev Test string, just for bitcoin. Use commented regexs at bottom to develop further. 
 
 
-var btcTxApi = 'https://api.blockchair.com/bitcoin/dashboards/transaction/';
+var api = 'https://api.blockchair.com/';
+var dashboard = '/dashboards/transaction/';
 var errors = document.querySelector(".errors");
 var loading = document.querySelector(".loading");
 var results = document.querySelector(".results");
@@ -3285,7 +3286,7 @@ function getTimeTitle() {
 
 var searchTransaction = /*#__PURE__*/function () {
   var _ref2 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(transactionHash) {
-    var btcHashRegex, response, newObj, readableDots, blockId, fee, sent, x;
+    var chain, hashRegexs, keys, chainKey, regex, sent, response, newObj, readableDots, blockId, fee, x;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -3294,53 +3295,97 @@ var searchTransaction = /*#__PURE__*/function () {
             confirmed.textContent = "Let me look that up...";
             loading.style.display = "block";
             errors.textContent = "";
-            btcHashRegex = /^[0-9a-f]{64}$/gi;
-            _context2.prev = 5;
+            chain = false;
+            hashRegexs = {
+              "bitcoin": "^[0-9a-f]{64}$",
+              "ethereum": "^0x[0-9a-fA-F]{64}$",
+              "tezos": "^o[a-zA-Z0-9]{50}/gi"
+            };
 
-            if (!btcHashRegex.test(transactionHash)) {
-              _context2.next = 36;
+            for (keys in hashRegexs) {
+              //keys are the chains
+              chainKey = hashRegexs[keys]; // Get regex
+
+              regex = new RegExp(chainKey, 'gi'); //formats as regex.
+
+              if (regex.test(transactionHash)) {
+                chain = keys;
+              } else {
+                console.log("Not the right chain", keys);
+              }
+            }
+
+            ;
+            _context2.prev = 8;
+
+            if (!chain) {
+              _context2.next = 47;
               break;
             }
 
-            _context2.next = 9;
-            return axios.get("".concat(btcTxApi).concat(transactionHash));
-
-          case 9:
-            response = _context2.sent;
             _context2.next = 12;
-            return response.data.data;
+            return axios.get("".concat(api).concat(chain).concat(dashboard).concat(transactionHash));
 
           case 12:
-            newObj = _context2.sent;
+            response = _context2.sent;
             _context2.next = 15;
-            return Object.values(newObj)[0];
+            return response.data.data;
 
           case 15:
-            readableDots = _context2.sent;
+            newObj = _context2.sent;
             _context2.next = 18;
-            return readableDots.transaction.block_id;
+            return Object.values(newObj)[0];
 
           case 18:
-            blockId = _context2.sent;
+            readableDots = _context2.sent;
             _context2.next = 21;
-            return readableDots.transaction.fee_usd;
+            return readableDots.transaction.block_id;
 
           case 21:
-            fee = _context2.sent;
+            blockId = _context2.sent;
             _context2.next = 24;
-            return readableDots.transaction.input_total_usd;
+            return readableDots.transaction.fee_usd;
 
           case 24:
+            fee = _context2.sent;
+
+            if (!(chain === "bitcoin")) {
+              _context2.next = 31;
+              break;
+            }
+
+            _context2.next = 28;
+            return readableDots.transaction.input_total_usd;
+
+          case 28:
             sent = _context2.sent;
+            _context2.next = 35;
+            break;
+
+          case 31:
+            if (!(chain === "ethereum")) {
+              _context2.next = 35;
+              break;
+            }
+
+            _context2.next = 34;
+            return readableDots.transaction.value_usd;
+
+          case 34:
+            sent = _context2.sent;
+
+          case 35:
+            console.log("sent is: ", sent);
             loading.style.display = "none";
 
             if (blockId > 0) {
-              confirmed.textContent = " Yes, block id is: " + blockId;
+              console.log("TX found.");
+              confirmed.textContent = " Yes, block id is: " + blockId + ", " + chain;
               feeSpent.textContent = " $" + fee.toFixed(2);
-              sendAmount.textContent = " $" + sent.toFixed(2);
+              sendAmount.textContent = " $" + parseFloat(sent).toFixed(2);
               console.log(readableDots);
             } else {
-              confirmed.textContent = "Not confirmed.";
+              confirmed.textContent = " Not confirmed.";
             }
 
             divider.style.display = "block";
@@ -3352,12 +3397,12 @@ var searchTransaction = /*#__PURE__*/function () {
             setTimeout(function () {
               x.className = x.className.replace("show", "");
             }, 1800);
-            _context2.next = 58;
+            _context2.next = 69;
             break;
 
-          case 36:
+          case 47:
             if (transactionHash) {
-              _context2.next = 48;
+              _context2.next = 59;
               break;
             }
 
@@ -3373,7 +3418,7 @@ var searchTransaction = /*#__PURE__*/function () {
             results.style.display = "none";
             return _context2.abrupt("return");
 
-          case 48:
+          case 59:
             console.log(transactionHash);
             divider.style.display = "block";
             labelResults.style.display = "none";
@@ -3387,13 +3432,13 @@ var searchTransaction = /*#__PURE__*/function () {
               x.className = x.className.replace("show", "");
             }, 1800);
 
-          case 58:
-            _context2.next = 68;
+          case 69:
+            _context2.next = 79;
             break;
 
-          case 60:
-            _context2.prev = 60;
-            _context2.t0 = _context2["catch"](5);
+          case 71:
+            _context2.prev = 71;
+            _context2.t0 = _context2["catch"](8);
             divider.style.display = "block";
             labelResults.style.display = "none";
             loading.style.display = "none";
@@ -3401,12 +3446,12 @@ var searchTransaction = /*#__PURE__*/function () {
             errors.textContent = "No data for the transaction or input entered.";
             console.log(_context2.t0);
 
-          case 68:
+          case 79:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[5, 60]]);
+    }, _callee2, null, [[8, 71]]);
   }));
 
   return function searchTransaction(_x) {
@@ -3443,6 +3488,7 @@ form.addEventListener("submit", function (e) {
 // let REGEXPS = [
 //       '^0x[0-9a-fA-F]{64}$',                    // etherium tx or block
 //       '^[0-9a-fA-F]{64}$',                      // tx's hash in a lot of blockhains
+//       '/^[0-9a-f]{64}$/i'                       // Ada transaction and BTC (btc-like assets), XLM, XRP, XMR
 //       '^0x[0-9a-fA-F]{40}$',                    // etherium address
 //       '^1[a-km-zA-HJ-NP-Z1-9]{25,34}(?!\/)$',      // bitcoin address
 //       '^3[a-km-zA-HJ-NP-Z1-9]{25,34}$',      // bitcoin address
@@ -3456,7 +3502,51 @@ form.addEventListener("submit", function (e) {
 //       '^grs[a-zA-Z0-9]{5,88}$',              // groestl add
 //       '^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$',  // ripple add
 //       '^G[A-Z0-9]{55}$'                      // stellar add
+//       '4[0-9AB][1-9A-HJ-NP-Za-km-z]{93}$'    // monero add
+//       'addr1[a-z0-9]+'                       // Ada address
+//       '9A-HJ-NP-Za-km-z]+'                   // Ada address
 //     ];
+// Need to match transaction hash or similar regex depending on chain. Push to array. Find length. 
+// If match multiple (length > 1), retrieve address from each response and test against regex for addresses. Then send  
+// To get address: 
+// Use dashboard data for btc (outputs recipient) [ Same standard for finding address for each asset ]
+// ETH use dashboard (transaction sender) [ Same standard for finding address for ERC20s and ETH native/ testnet ]
+// XRP use raw (amount issuer)
+// XLM use raw (transaction source_account)
+// XMR use raw (data[0] should match regex)
+// ADA use raw (transaction, ctsInputs, ctaAddress, unCAddress)
+// Use diff. explorers: 
+// XTZ does not pull. Starts with op always Use: https://api.tzstats.com/explorer/op/opSrt7oYHDTZcfGnhNt3BzGrrCQf364VuYmKo5ZQVQRfTnczjnf
+// SOL use web3js
+// polygon use alchemyapi
+// Resend transaction call to API 
+//     let hashRegexs = {
+//     /^0x[0-9a-fA-F]{64}$/i : "ethereum",
+//         /^[0-9a-f]{64}$/gi : "bitcoin",
+//         /^[0-9a-f]{64}$/gi : "bitcoin-cash",
+//         /^[0-9a-f]{64}$/gi : "litecoin",
+//         /^[0-9a-f]{64}$/gi : "bitcoin-sv",
+//         /^[0-9a-f]{64}$/gi : "dogecoin",
+//         /^[0-9a-f]{64}$/gi : "dash",
+//         /^[0-9a-f]{64}$/gi : "zcash",
+//         /^[0-9a-f]{64}$/gi : "ecash",
+//         /^[0-9a-f]{64}$/gi : "bitcoin/testnet",
+//         /^[0-9a-f]{64}$/gi : "cardano",
+//         /^[0-9a-f]{64}$/gi : "stellar",
+//         /^[0-9a-f]{64}$/gi : "monero",
+//    /^o[a-zA-Z0-9]{50}/gi : "tezos", //This will use tzstats endpoing. So far this regex matches txs
+//        /^0x[0-9a-f]{64}$/i : "ethereum/testnet",
+//                            : "solana", //This will need solana web3js. TransactionBlockhashCtor & TransactionConfirmationStatus https://solana-labs.github.io/solana-web3.js/modules.html#TransactionBlockhashCtor
+//     /^0x[0-9a-fA-F]{64}$/i : "polygon", //Can use alchemy API to explore transactions. If matches regex for eth && not found blockchair, try alchecmy API
+//     }
+//   for (keys in hashRegexs) {
+//                //keys are the regexs
+//                // chain name is chain name. 
+//                let chainName = hashRegexs[keys].split(':').shift(); // Chain name
+//                if (keys.test(transactionHash)) {
+//                     let chain = chainName
+//                 }
+//             };
 })();
 
 /******/ })()
