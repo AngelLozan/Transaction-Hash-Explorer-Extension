@@ -171,7 +171,7 @@ const handleSubmit = async e => {
 form.addEventListener("submit", e => handleSubmit(e));
 
 //@dev Some fun ways to answer team when no query entered but search invoked. Not neccessary. 
-const emojis = ['✌️ Enter query', '🤔 I\'m listening', '🦾 I find things', '🚀 To the moon\!', '🤙 Good vibez', '🖖 Salute ser', '👋 Hi there', '👾 Can I help?', '🧠 Query me', '🌈 Enter search', '✨ Shiny searches', '💫 Find a tx here'];
+const emojis = ['✌️ Enter query', '🤔 I\'m listening', '🦾 I find things', '🚀 To the moon\!', '🤙 Query vibez', '🖖 Search ser', '👋 Hi there', '👾 Can I help?', '🧠 Query me', '🌈 Enter search', '✨ Shiny searches', '💫 Find a tx here'];
 const getRandomEmoji = () => {
     return emojis[~~(Math.random() * emojis.length)]
 };
