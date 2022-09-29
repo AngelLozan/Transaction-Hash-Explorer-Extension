@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 })
 
-//@dev Not neccessary, but included to give welcome message so user knows fresh open/reset of app. Time is generic indicator. 
+//@dev Not neccessary, but included to give welcome message so user knows fresh open/reset of app. Draw attention to search box highlight. Time is generic indicator. 
 function getTimeTitle() {
     var x = document.getElementById("snackbar");
     var today = new Date();
@@ -132,7 +132,7 @@ const searchTransaction = async (transactionHash) => {
             var x = document.getElementById("snackbar");
             x.innerText =  `${getRandomEmoji()}`
             x.className = "show";
-            setTimeout(function() { x.className = x.className.replace("show", ""); }, 1800);
+            setTimeout(function() { x.className = x.className.replace("show", ""); }, 1200);
             divider.style.display = "none";
             labelResults.style.display = "none";
             loading.style.display = "none";
@@ -171,7 +171,7 @@ const handleSubmit = async e => {
 form.addEventListener("submit", e => handleSubmit(e));
 
 //@dev Some fun ways to answer team when no query entered but search invoked. Not neccessary. 
-const emojis = ['✌️ Enter query', '🤔 I\'m listening', '🦾 I\'ll find it', '🚀 To the moon\!', '🤙 Good vibez', '🖖 Salute ser', '👋 Hi there', '👾 Can I help?', '🧠 Query me', '🌈 Enter search', '✨ Shiny searches', '💫 Find a tx here'];
+const emojis = ['✌️ Enter query', '🤔 I\'m listening', '🦾 I find things', '🚀 To the moon\!', '🤙 Good vibez', '🖖 Salute ser', '👋 Hi there', '👾 Can I help?', '🧠 Query me', '🌈 Enter search', '✨ Shiny searches', '💫 Find a tx here'];
 const getRandomEmoji = () => {
     return emojis[~~(Math.random() * emojis.length)]
 };
