@@ -7,8 +7,8 @@ const loading = document.querySelector(".loading");
 const results = document.querySelector(".results");
 const confirmed = document.querySelector(".confirmed");
 const labelResults = document.querySelector(".labelResults");
-const feeSpent = document.querySelector('.feeSpent'); // in USD
-const sendAmount = document.querySelector('.sendAmount'); // in USD
+const feeSpent = document.querySelector('.feeSpent'); //@dev in USD
+const sendAmount = document.querySelector('.sendAmount'); //dev in USD
 let divider = document.querySelector(".extension__divider");
 
 
@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 })
 
+//@dev Not neccessary, but included to give welcome message so user knows fresh open/reset of app. Time is generic indicator. 
 function getTimeTitle() {
     var x = document.getElementById("snackbar");
     var today = new Date();
@@ -38,11 +39,19 @@ function getTimeTitle() {
     }
 
     x.className = "show";
-    // After 1.5 seconds, remove the show class from DIV
-    setTimeout(function() { x.className = x.className.replace("show", ""); }, 1000);
+    //@dev After 1.5 seconds, remove the show class from DIV
+    setTimeout(function() { x.className = x.className.replace("show", ""); }, 1500);
 }
 
+//@dev Converts string from dict to dot notation for finding send amt. Loops transaction obj at each index.
+async function getSendAmount (obj, sendConcat) {
+    sendConcat = sendConcat.split(".");
+    for (var i = 0; i < sendConcat.length; i++)
+        obj = obj[sendConcat[i]];
+    return obj;
+};
 
+//@dev Main function searching transaction hash and populating data
 const searchTransaction = async (transactionHash) => {
 
     labelResults.style.display = "block";
@@ -51,28 +60,33 @@ const searchTransaction = async (transactionHash) => {
     errors.textContent = "";
 
     let chain = false;
+    let hashRegex;
+    let sendConcat;
   
+  //@dev Dictionary for tx regexes, search parameters, chain and can add addresses.
+
     let hashRegexs = {
-        "bitcoin": "^[0-9a-f]{64}$",
-        "ethereum": "^0x[0-9a-fA-F]{64}$",
-        "tezos": "^o[a-zA-Z0-9]{50}/gi"
+        "bitcoin": "^[0-9a-f]{64}$:input_total_usd",
+        "ethereum": "^0x[0-9a-fA-F]{64}$:value_usd",
+        "tezos": "^o[a-zA-Z0-9]{50}:tez_placeholder"
     }
 
     for (let keys in hashRegexs) {
-        //keys are the chains
-        let chainKey = hashRegexs[keys] // Get regex
-        let regex = new RegExp(chainKey, 'gi'); //formats as regex.
+        //@dev keys are the chains
+        hashRegex = hashRegexs[keys].split(':')[0]; //@dev Get regex
+
+        let regex = new RegExp(hashRegex, 'gi'); //@dev formats as regex.
 
         if (regex.test(transactionHash)) {
             chain = keys;
+            sendConcat = hashRegexs[keys].split(':')[1]; //@dev Get search param string to loop transaction object in getSendAmount()
+            console.log("sendconcat is: ", sendConcat);
         } else {
             console.log("Not the right chain", keys);
         }
     };
 
     try {
-
-        let sent; 
 
         if (chain) {
             
@@ -88,11 +102,11 @@ const searchTransaction = async (transactionHash) => {
             let blockId = await readableDots.transaction.block_id;
             let fee = await readableDots.transaction.fee_usd;
 
-            if(chain === "bitcoin"){
-                 sent = await readableDots.transaction.input_total_usd;
-            } else if (chain === "ethereum") {
-                 sent = await readableDots.transaction.value_usd;
-            }
+            let obj = await readableDots.transaction;
+
+            let sent = await getSendAmount(obj, sendConcat);
+
+            console.log('sent: ', sent);
 
             loading.style.display = "none";
 
@@ -116,7 +130,7 @@ const searchTransaction = async (transactionHash) => {
 
         } else if (!transactionHash) {
             var x = document.getElementById("snackbar");
-            x.innerText = "🤔 I'm listening... "
+            x.innerText =  `${getRandomEmoji()}`
             x.className = "show";
             setTimeout(function() { x.className = x.className.replace("show", ""); }, 1800);
             divider.style.display = "none";
@@ -156,9 +170,13 @@ const handleSubmit = async e => {
 
 form.addEventListener("submit", e => handleSubmit(e));
 
+//@dev Some fun ways to answer team when no query entered but search invoked. Not neccessary. 
+const emojis = ['✌️ Enter query', '🤔 I\'m listening', '🦾 I\'ll find it', '🚀 To the moon\!', '🤙 Good vibez', '🖖 Salute ser', '👋 Hi there', '👾 Can I help?', '🧠 Query me', '🌈 Enter search', '✨ Shiny searches', '💫 Find a tx here'];
+const getRandomEmoji = () => {
+    return emojis[~~(Math.random() * emojis.length)]
+};
 
-
-// Regex's pulled from existing extension for reference. 
+//@dev Regex's pulled from existing extension for reference. 
 
 // let REGEXPS = [
 //       '^0x[0-9a-fA-F]{64}$',                    // etherium tx or block
