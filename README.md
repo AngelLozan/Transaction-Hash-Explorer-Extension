@@ -6,6 +6,7 @@ This project has been created using **webpack-cli**
 
 This is a demo extension to test the capbilities of the blockchair api for an internal tool hackathon project. Will be utilized by over 100 employees. Branding, coloration and images are all according to Exodus brand guidelines. 
 
+## On code download:
 Run
 
 ```
@@ -19,6 +20,17 @@ yarn build
 ```
 
 to bundle your application
+
+- You will see a `dist` folder created. This will be the packaged extension with minified code. 
+
+## To Install:
+
+- Upload the `dist` folder to chrome as an unpacked extension. 
+
+## Use:
+
+- Open the explorer with CMD + I
+- Copy and paste a transaction into the search bar and hit enter.
 
 
 
